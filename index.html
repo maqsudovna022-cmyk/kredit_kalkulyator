@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kredit Kalkulyator</title>
+<style>
+/* ===== BODY ===== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url('https://insights.redaptive.com/hubfs/Achieving%20Financial%20Agility.png') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+}
+
+/* ===== HEADER ===== */
+header {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    background: rgba(0,0,0,0.3);
+    box-shadow: 0 0 15px #00ff88;
+}
+header h1 {
+    margin: 0;
+    color: #00d4ff;
+    text-shadow: 0 0 5px #00d4ff, 0 0 15px #00d4ff;
+}
+
+/* ===== CALCULATOR BOX ===== */
+.calculator {
+    background: rgba(4, 24, 48, 0.9); /* TO‘Q KO‘K */
+    border-radius: 15px;
+    padding: 25px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 0 20px rgba(0,212,255,0.5), 0 0 40px rgba(0,212,255,0.2);
+    color: #fff;
+    margin: 20px 0;
+}
+
+/* ===== H2 ===== */
+h2 { 
+    text-align: center; 
+    margin-bottom: 20px; 
+    color: #00d4ff;
+    font-weight: bold;
+    text-shadow: 0 0 5px #00d4ff, 0 0 15px #00d4ff;
+}
+
+/* ===== INPUTS ===== */
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top:5px;
+    border-radius: 8px;
+    border: none;
+    box-sizing: border-box;
+    background: rgba(255,255,255,0.9);
+    color: #041830;
+}
+input:focus {
+    outline: none;
+    box-shadow: 0 0 10px #00d4ff;
+}
+
+/* ===== SELECTS ===== */
+select {
+    width: 100%;
+    padding: 10px;
+    margin-top:5px;
+    border-radius: 8px;
+    border: none;
+    box-sizing: border-box;
+    background: rgba(255,255,255,0.9);
+    color: #041830;
+}
+
+/* ===== BUTTONS ===== */
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top:10px;
+    border-radius: 8px;
+    border: none;
+    background: #00d4ff;
+    color: #041830;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+button:hover {
+    background: #00aacc;
+    box-shadow: 0 0 15px #00d4ff;
+}
+
+/* ===== TABLE ===== */
+.result { margin-top: 20px; text-align: center; font-weight: bold; color:#fff; }
+table {
+    width: 100%;
+    margin-top: 15px;
+    border-collapse: collapse;
+    background-color: #ffffff;
+}
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+    color: #041830;
+}
+th { font-weight: bold; }
+
+/* ===== FOOTER ===== */
+footer {
+    width: 100%;
+    text-align: center;
+    padding: 15px;
+    background: rgba(0,0,0,0.3);
+    box-shadow: 0 0 10px #00d4ff;
+    color: #fff;
+}
+
+
+/* ===== FIELD COLORS + GLOW ===== */
+#loanType { border: 2px solid #22c55e; box-shadow: 0 0 8px #22c55e; }
+#amount { border: 2px solid #3b82f6; box-shadow: 0 0 8px #3b82f6; }
+#months { border: 2px solid #a855f7; box-shadow: 0 0 8px #a855f7; }
+#interest { border: 2px solid #f59e0b; box-shadow: 0 0 8px #f59e0b; }
+#calcType { border: 2px solid #ef4444; box-shadow: 0 0 8px #ef4444; }
+#privilege { border: 2px solid #14b8a6; box-shadow: 0 0 8px #14b8a6; }
+
+/* ===== KUCHLI GLOW (FOCUS + HOVER) ===== */
+#loanType, #amount, #months, #interest, #calcType, #privilege {
+  transition: box-shadow 0.25s ease, transform 0.15s ease;
+}
+
+/* default yumshoq glow */
+#loanType { box-shadow: 0 0 10px #22c55e; }
+#amount { box-shadow: 0 0 10px #3b82f6; }
+#months { box-shadow: 0 0 10px #a855f7; }
+#interest { box-shadow: 0 0 10px #f59e0b; }
+#calcType { box-shadow: 0 0 10px #ef4444; }
+#privilege { box-shadow: 0 0 10px #14b8a6; }
+
+/* hoverda kuchayadi */
+#loanType:hover { box-shadow: 0 0 25px #22c55e, 0 0 50px #22c55e; }
+#amount:hover { box-shadow: 0 0 25px #3b82f6, 0 0 50px #3b82f6; }
+#months:hover { box-shadow: 0 0 25px #a855f7, 0 0 50px #a855f7; }
+#interest:hover { box-shadow: 0 0 25px #f59e0b, 0 0 50px #f59e0b; }
+#calcType:hover { box-shadow: 0 0 25px #ef4444, 0 0 50px #ef4444; }
+#privilege:hover { box-shadow: 0 0 25px #14b8a6, 0 0 50px #14b8a6; }
+
+/* bosilganda (focus) PORLAYDI */
+#loanType:focus { box-shadow: 0 0 30px #22c55e, 0 0 70px #22c55e, 0 0 100px #22c55e; transform: scale(1.03); }
+#amount:focus { box-shadow: 0 0 30px #3b82f6, 0 0 70px #3b82f6, 0 0 100px #3b82f6; transform: scale(1.03); }
+#months:focus { box-shadow: 0 0 30px #a855f7, 0 0 70px #a855f7, 0 0 100px #a855f7; transform: scale(1.03); }
+#interest:focus { box-shadow: 0 0 30px #f59e0b, 0 0 70px #f59e0b, 0 0 100px #f59e0b; transform: scale(1.03); }
+#calcType:focus { box-shadow: 0 0 30px #ef4444, 0 0 70px #ef4444, 0 0 100px #ef4444; transform: scale(1.03); }
+#privilege:focus { box-shadow: 0 0 30px #14b8a6, 0 0 70px #14b8a6, 0 0 100px #14b8a6; transform: scale(1.03); }
+
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Kredit Kalkulyator</h1>
+</header>
+
+<div class="calculator">
+    <h2>Kredit Kalkulyator</h2>
+
+    <label>Kredit turi</label>
+    <select id="loanType">
+        <option>Uy krediti</option>
+        <option>Avtomobil krediti</option>
+        <option>Onlayn kredit</option>
+        <option>Iste'mol krediti</option>
+        <option>Ta'lim krediti</option>
+        <option>Tadbirkorlik krediti</option>
+    </select>
+
+    <label>Kredit miqdori</label>
+    <input type="number" id="amount" placeholder="Masalan: 10000000">
+
+    <label>Muddat (oy)</label>
+    <input type="number" id="months" placeholder="Masalan: 12">
+
+    <label>Foiz (%)</label>
+    <input type="number" id="interest" placeholder="Masalan: 12">
+
+    <label>Hisoblash turi</label>
+    <select id="calcType">
+        <option value="anuitet">Anuitet</option>
+        <option value="differensial">Differensial</option>
+    </select>
+
+    <label>Imtiyoz toifasi</label>
+    <select id="privilege">
+        <option value="0">Oddiy</option>
+        <option value="5">Kam ta'minlangan (5%)</option>
+        <option value="7">Ayollar daftari (7%)</option>
+        <option value="6">Temir daftar (6%)</option>
+        <option value="8">Boquvchisini yo'qotgan (8%)</option>
+        <option value="10">Nogiron (10%)</option>
+    </select>
+
+    <button id="calcBtn">Hisoblash</button>
+    <button id="downloadBtn">PDF sifatida yuklab olish</button>
+
+    <div class="result" id="result"></div>
+    <div id="schedule"></div>
+</div>
+
+<footer>
+    <p>&copy; 2026 Maqsudovna. Barcha huquqlar himoyalangan.</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+<script>
+// (sizning JS o‘zgarmagan)
+function calculateLoan() {
+    let loanType = document.getElementById('loanType').value;
+    let amount = parseFloat(document.getElementById('amount').value);
+    let months = parseInt(document.getElementById('months').value);
+    let interest = parseFloat(document.getElementById('interest').value);
+    let privilegeDiscount = parseFloat(document.getElementById('privilege').value);
+    let calcType = document.getElementById('calcType').value;
+
+    if(isNaN(amount) || isNaN(months) || isNaN(interest) || amount <= 0 || months <= 0) {
+        document.getElementById('result').innerText = "Iltimos, to'g'ri qiymatlar kiriting!";
+        document.getElementById('schedule').innerHTML = "";
+        return;
+    }
+
+    interest = Math.max(0, interest - privilegeDiscount);
+    let monthlyRate = interest / 100 / 12;
+    let remaining = amount;
+
+    let table = "<table><tr><th>Oy</th><th>To'lov</th><th>Foiz</th><th>Asosiy qarz</th><th>Qoldiq</th></tr>";
+
+    if(calcType === "anuitet") {
+        let payment = monthlyRate === 0 ? amount / months : amount * (monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+        for(let i=1;i<=months;i++){
+            let interestPart = remaining * monthlyRate;
+            let principal = payment - interestPart;
+            remaining -= principal;
+            if(remaining<0) remaining=0;
+            table += `<tr>
+                        <td>${i}</td>
+                        <td>${Math.round(payment)}</td>
+                        <td>${Math.round(interestPart)}</td>
+                        <td>${Math.round(principal)}</td>
+                        <td>${Math.round(remaining)}</td>
+                      </tr>`;
+        }
+    } else {
+        let principal = amount / months;
+        for(let i=1;i<=months;i++){
+            let interestPart = remaining * monthlyRate;
+            let payment = principal + interestPart;
+            remaining -= principal;
+            if(remaining<0) remaining=0;
+            table += `<tr>
+                        <td>${i}</td>
+                        <td>${Math.round(payment)}</td>
+                        <td>${Math.round(interestPart)}</td>
+                        <td>${Math.round(principal)}</td>
+                        <td>${Math.round(remaining)}</td>
+                      </tr>`;
+        }
+    }
+
+    table += "</table>";
+    document.getElementById('result').innerText = loanType + " hisoblandi";
+    document.getElementById('schedule').innerHTML = table;
+}
+
+function downloadPDF() {
+    const doc = new window.jspdf.jsPDF();
+
+    let resultText = document.getElementById('result').innerText;
+    let table = document.getElementById('schedule').querySelector("table");
+
+    if(!table){
+        alert("Avval hisoblashni bajaring!");
+        return;
+    }
+
+    doc.setFontSize(16);
+    doc.text("Kredit Kalkulyator Hisoboti", 105, 15, {align:"center"});
+    doc.text(resultText, 105, 25, {align:"center"});
+
+    let rows = [];
+    let tableRows = table.rows;
+    for(let i=0;i<tableRows.length;i++){
+        let row = [];
+        for(let j=0;j<tableRows[i].cells.length;j++){
+            row.push(tableRows[i].cells[j].innerText);
+        }
+        rows.push(row);
+    }
+
+    doc.autoTable({
+        head: [rows[0]],
+        body: rows.slice(1),
+        startY: 35,
+    });
+
+    doc.save("kredit_hisoboti.pdf");
+}
+
+document.getElementById('calcBtn').addEventListener('click', calculateLoan);
+document.getElementById('downloadBtn').addEventListener('click', downloadPDF);
+</script>
+</body>
+</html>
